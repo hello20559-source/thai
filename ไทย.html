@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>คลังความรู้ภาษาไทย · 5 หัวข้อ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E9;
+    --cream-2:#FBF8F2;
+    --ink:#2A211C;
+    --ink-soft:#4E4238;
+    --line: rgba(42,33,28,0.16);
+    --white:#FFFFFF;
+
+    --t1:#D65A32; --t1-soft:#FBDFCE; --t1-deep:#8A3316;
+    --t2:#6C5DC4; --t2-soft:#E4DFF9; --t2-deep:#3E3271;
+    --t3:#2F7D4B; --t3-soft:#D6EDDC; --t3-deep:#1B5330;
+    --t4:#B25861; --t4-soft:#F3D9DC; --t4-deep:#742A33;
+    --t5:#B2822C; --t5-soft:#F2E4C4; --t5-deep:#6E4E10;
+
+    --good:#2F7D4B; --good-soft:#D6EDDC;
+    --bad:#B23A2F; --bad-soft:#F8D6D1;
+
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html{ scroll-padding-top: env(safe-area-inset-top, 0px); height:100%; }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100%;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Sarabun', sans-serif;
+    line-height:1.7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:#211C18; --cream-2:#2A2420; --ink:#F7F1EA; --ink-soft:#D8CCC0; --line: rgba(255,255,255,0.18); --white:#332B25;
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream:#211C18; --cream-2:#2A2420; --ink:#F7F1EA; --ink-soft:#D8CCC0; --line: rgba(255,255,255,0.18); --white:#332B25;
+  }
+
+  h1,h2,h3,.display{ font-family:'Chonburi', 'Sarabun', sans-serif; font-weight:400; margin:0; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 44px 20px 28px;
+    text-align:center;
+    background:
+      radial-gradient(circle at 12% 15%, var(--t1-soft) 0%, transparent 40%),
+      radial-gradient(circle at 88% 20%, var(--t2-soft) 0%, transparent 40%),
+      radial-gradient(circle at 20% 90%, var(--t3-soft) 0%, transparent 38%),
+      radial-gradient(circle at 85% 85%, var(--t5-soft) 0%, transparent 38%);
+  }
+  .hero .kicker{
+    display:inline-block; font-size:0.8rem; letter-spacing:0.02em; color:var(--ink-soft);
+    background:var(--white); border:1px solid var(--line); border-radius:999px;
+    padding:5px 14px; margin-bottom:14px;
+  }
+  .hero h1{ font-size:2.1rem; line-height:1.3; color:var(--ink); }
+  .hero h1 span{ color:var(--t1); }
+  .hero p{ max-width:520px; margin:12px auto 0; color:var(--ink-soft); font-size:0.98rem; }
+
+  /* ---------- Tab nav ---------- */
+  .tabbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--cream-2);
+    border-bottom:1px solid var(--line);
+    padding: env(safe-area-inset-top, 0px) 0 0 0;
+  }
+  .tabbar-scroll{
+    display:flex; gap:8px; overflow-x:auto; padding:10px 14px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .tabbar-scroll::-webkit-scrollbar{ display:none; }
+  .tab-btn{
+    flex:0 0 auto;
+    font-family:'Sarabun', sans-serif; font-weight:600; font-size:0.85rem;
+    color:var(--ink-soft); background:var(--white); border:1px solid var(--line);
+    border-radius:999px; padding:9px 16px; cursor:pointer; white-space:nowrap;
+    transition: background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .tab-btn.active{ color:#fff; border-color:transparent; }
+  .tab-btn[data-tab="t1"].active{ background:var(--t1); }
+  .tab-btn[data-tab="t2"].active{ background:var(--t2); }
+  .tab-btn[data-tab="t3"].active{ background:var(--t3); }
+  .tab-btn[data-tab="t4"].active{ background:var(--t4); }
+  .tab-btn[data-tab="t5"].active{ background:var(--t5); }
+
+  /* ---------- Layout ---------- */
+  main{ max-width:760px; margin:0 auto; padding: 24px 16px 60px; }
+  .topic{ display:none; }
+  .topic.active{ display:block; animation: fade .35s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+
+  .topic-head{ display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+  .topic-badge{
+    width:44px; height:44px; border-radius:14px; flex:0 0 44px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Chonburi'; font-size:1.1rem; color:#fff;
+  }
+  .topic-title{ font-size:1.4rem; color:var(--ink); }
+  .topic-sub{ font-size:0.85rem; color:var(--ink-soft); margin-top:2px; }
+
+  .card{
+    background:var(--white); border:1px solid var(--line); border-radius:18px;
+    padding:18px 18px; margin-bottom:14px;
+  }
+  .card h3{ font-size:1.02rem; margin-bottom:8px; color:var(--ink); font-family:'Sarabun'; font-weight:700; }
+  .card p{ margin:0 0 8px; color:var(--ink); }
+  .card p:last-child{ margin-bottom:0; }
+  .card ul{ margin:6px 0 0; padding-left:1.15em; }
+  .card li{ margin-bottom:6px; }
+
+  .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .pill{
+    font-size:0.85rem; font-weight:600; padding:6px 13px; border-radius:999px;
+    background:var(--soft); color:var(--deep);
+  }
+
+  .example{
+    border-left:3px solid var(--accent);
+    background:var(--soft);
+    border-radius:0 12px 12px 0;
+    padding:12px 14px; margin-top:10px;
+  }
+  .example .sent{ font-weight:600; color:var(--ink); }
+  .example .note{ font-size:0.9rem; color:var(--ink); margin-top:4px; }
+  .example .verdict{ font-weight:700; }
+  .verdict.yes{ color:var(--good); }
+  .verdict.no{ color:var(--bad); }
+
+  .flow{ display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+  .flow-step{
+    display:flex; gap:10px; align-items:flex-start;
+    background:var(--soft); border-radius:12px; padding:10px 12px;
+  }
+  .flow-step .num{
+    flex:0 0 26px; height:26px; border-radius:8px; background:var(--accent); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.82rem;
+  }
+  .flow-step .txt strong{ display:block; font-size:0.92rem; color:var(--ink); }
+  .flow-step .txt span{ font-size:0.87rem; color:var(--ink); }
+
+  /* ---------- Quiz ---------- */
+  .quiz-head{ margin: 26px 0 10px; display:flex; align-items:center; justify-content:space-between; }
+  .quiz-head h3{ font-size:1.08rem; }
+  .score-chip{
+    font-size:0.82rem; font-weight:700; padding:5px 12px; border-radius:999px;
+    background:var(--soft); color:var(--deep);
+  }
+  .q-card{
+    background:var(--white); border:1px solid var(--line); border-radius:16px;
+    padding:16px; margin-bottom:12px;
+  }
+  .q-num{ font-size:0.78rem; font-weight:700; color:var(--accent); margin-bottom:4px; }
+  .q-text{ font-weight:600; margin-bottom:10px; }
+  .opt{
+    display:block; width:100%; text-align:right; font-family:'Sarabun'; font-size:0.94rem;
+    background:var(--cream-2); border:1px solid var(--line); border-radius:11px;
+    padding:10px 14px; margin-bottom:8px; cursor:pointer; color:var(--ink);
+    transition: background .15s, border-color .15s;
+  }
+  .opt:last-child{ margin-bottom:0; }
+  .opt:hover{ border-color:var(--accent); }
+  .opt.correct{ background:var(--good-soft); border-color:var(--good); color:var(--good); font-weight:700; }
+  .opt.incorrect{ background:var(--bad-soft); border-color:var(--bad); color:var(--bad); font-weight:700; }
+  .opt.disabled{ pointer-events:none; opacity:0.85; }
+  .explain{
+    display:none; margin-top:10px; font-size:0.88rem; color:var(--ink);
+    border-top:1px dashed var(--line); padding-top:10px;
+  }
+  .explain.show{ display:block; }
+
+  .quiz-footer{
+    display:flex; gap:10px; align-items:center; justify-content:space-between;
+    margin-top:8px; padding: 14px 16px; background:var(--soft); border-radius:14px;
+  }
+  .quiz-footer .msg{ font-size:0.88rem; font-weight:600; color:var(--deep); }
+  .reset-btn{
+    font-family:'Sarabun'; font-weight:700; font-size:0.82rem; color:#fff; background:var(--accent);
+    border:none; border-radius:999px; padding:8px 16px; cursor:pointer;
+  }
+
+  footer{ text-align:center; padding:20px 16px 40px; color:var(--ink-soft); font-size:0.82rem; }
+
+  /* topic accent scoping */
+  #t1{ --accent:var(--t1); --soft:var(--t1-soft); --deep:var(--t1-deep); }
+  #t2{ --accent:var(--t2); --soft:var(--t2-soft); --deep:var(--t2-deep); }
+  #t3{ --accent:var(--t3); --soft:var(--t3-soft); --deep:var(--t3-deep); }
+  #t4{ --accent:var(--t4); --soft:var(--t4-soft); --deep:var(--t4-deep); }
+  #t5{ --accent:var(--t5); --soft:var(--t5-soft); --deep:var(--t5-deep); }
+
+  @media (max-width:420px){
+    .hero h1{ font-size:1.7rem; }
+    .card{ padding:15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="kicker">ครูจิรัชยา กลับศรีอ่อน</span>
+  <h1>คลังความรู้<span>ภาษาไทย</span></h1>
+  <p>สรุปเนื้อหา 5 หัวข้อ — ประโยคสามัญ · ประโยคซ้อน · ประโยครวม · การอ่านจับใจความ · การอ่านวิเคราะห์วิจารณ์ พร้อมแบบฝึกหัดทบทวนท้ายบท</p>
+</div>
+
+<div class="tabbar">
+  <div class="tabbar-scroll">
+    <button class="tab-btn active" data-tab="t1">1. ประโยคสามัญ</button>
+    <button class="tab-btn" data-tab="t2">2. ประโยคซ้อน</button>
+    <button class="tab-btn" data-tab="t3">3. ประโยครวม</button>
+    <button class="tab-btn" data-tab="t4">4. จับใจความสำคัญ</button>
+    <button class="tab-btn" data-tab="t5">5. วิเคราะห์วิจารณ์</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ================= TOPIC 1 ================= -->
+  <section class="topic active" id="t1">
+    <div class="topic-head">
+      <div class="topic-badge" style="background:var(--t1)">1</div>
+      <div>
+        <div class="topic-title">ประโยคสามัญ</div>
+        <div class="topic-sub">ใกล้เคียงประโยคความเดียว แต่ไม่เหมือนกัน</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>หลักการพิจารณา</h3>
+      <p>ให้ <strong>ดูกริยาวลีเป็นหลัก</strong> ประโยคสามัญแบ่งเป็น 2 แบบ</p>
+      <ul>
+        <li><strong>มีกริยาวลีเดียว</strong> เช่น หมากัดแมว / ง่วงแล้วสิ / จองกุกและจีมินกำลังร้องเพลง</li>
+        <li><strong>มีหลายกริยาวลี</strong> โดยกริยาเรียงต่อกัน <em>โดยไม่มีคำเชื่อม</em> เช่น ฉันกำลังนั่งทำการบ้าน / แม่วิ่งไปเปิดประตูบ้าน</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>ข้อควรระวัง: ตัว "และ" เชื่อมอะไร</h3>
+      <p>ถ้า <strong>และ</strong> เชื่อม<strong>ประธานหรือกรรม</strong> (ยังใช้กริยาวลีร่วมกัน) — ยังเป็น<strong>ประโยคสามัญ</strong>ได้</p>
+      <p>แต่ถ้า <strong>และ</strong> เชื่อม<strong>กริยา 2 การกระทำที่แยกกัน</strong> — จะกลายเป็น<strong>ประโยครวม</strong> ไม่ใช่ประโยคสามัญ</p>
+
+      <div class="example">
+        <div class="sent">คุณยายแกงและทอดปลากะพง</div>
+        <div class="note verdict no">✕ ไม่เป็นประโยคสามัญ — เพราะ "และ" เป็นคำเชื่อมกริยา (แกง / ทอด)</div>
+      </div>
+      <div class="example">
+        <div class="sent">เจโฮปและยุนกิกำลังซ้อมเต้น</div>
+        <div class="note verdict yes">✓ เป็นประโยคสามัญ — เพราะมีหลายกริยาวลี (และ เชื่อมประธาน ใช้กริยาวลีเดียวกันคือ "กำลังซ้อมเต้น")</div>
+      </div>
+      <div class="example">
+        <div class="sent">แทฮยองกำลังนอนอ่านหนังสือ</div>
+        <div class="note verdict yes">✓ เป็นประโยคสามัญ — เพราะมีหลายกริยาวลีเรียงต่อกัน (นอน + อ่านหนังสือ)</div>
+      </div>
+      <div class="example">
+        <div class="sent">นัมจุนและจินกำลังกินรามยอนกิมจิและต็อกบกกี</div>
+        <div class="note verdict yes">✓ เป็นประโยคสามัญ — เพราะมีกริยาวลีเดียว ("และ" ตัวแรกเชื่อมประธาน ตัวหลังเชื่อมกรรม)</div>
+      </div>
+    </div>
+
+    <div class="quiz-head"><h3>แบบฝึกหัด · ประโยคสามัญ</h3><span class="score-chip" data-score="t1">0/6</span></div>
+    <div id="quiz-t1"></div>
+    <div class="quiz-footer">
+      <span class="msg" data-msg="t1">ลองทำแบบฝึกหัดดูค่ะ</span>
+      <button class="reset-btn" data-reset="t1">ทำใหม่</button>
+    </div>
+  </section>
+
+  <!-- ================= TOPIC 2 ================= -->
+  <section class="topic" id="t2">
+    <div class="topic-head">
+      <div class="topic-badge" style="background:var(--t2)">2</div>
+      <div>
+        <div class="topic-title">ประโยคซ้อน</div>
+        <div class="topic-sub">ประโยคหลัก + ประโยคย่อยที่ซ้อนอยู่ข้างใน</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>โครงสร้างประโยคซ้อน</h3>
+      <p><strong>ประโยคหลัก (มุขยประโยค)</strong> + <strong>ประโยคย่อย (อนุประโยค)</strong></p>
+      <p>ประโยคย่อยทำหน้าที่เป็น <strong>ประธาน / กรรม / ส่วนเติมเต็ม / ส่วนขยาย</strong> ของประโยคหลัก</p>
+      <p>แบ่งตามหน้าที่ของอนุประโยคได้ 3 ประเภท</p>
+    </div>
+
+    <div class="card">
+      <h3>1) นามานุประโยค</h3>
+      <p>อนุประโยคที่ทำหน้าที่เหมือน<strong>นามวลี</strong> — เป็นประธาน กรรม ส่วนเติมเต็ม หรือส่วนเสริมความ</p>
+      <div class="pillrow">
+        <span class="pill">คำเชื่อม: ที่</span><span class="pill">ที่ว่า</span><span class="pill">ให้</span><span class="pill">ว่า</span>
+      </div>
+      <div class="example">
+        <div class="sent">จอยไม่ชอบให้ใครมาว่าเพื่อนของเธอ</div>
+        <div class="note">"ให้ใครมาว่าเพื่อนของเธอ" เป็นนามานุประโยค ทำหน้าที่กรรมของกริยาวลี "ไม่ชอบ"</div>
+      </div>
+      <div class="example">
+        <div class="sent">ครูดีใจที่นักเรียนของครูสอบผ่านทุกคน</div>
+        <div class="note">"ที่นักเรียนของครูสอบผ่านทุกคน" เป็นนามานุประโยค ทำหน้าที่หน่วยเสริมความของกริยา "ดีใจ"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>2) คุณานุประโยค</h3>
+      <p>อนุประโยคที่ทำหน้าที่<strong>ขยายคำนาม</strong>ที่อยู่ข้างหน้า</p>
+      <div class="pillrow">
+        <span class="pill">คำเชื่อม: ที่</span><span class="pill">ซึ่ง</span><span class="pill">อัน</span>
+      </div>
+      <p style="font-size:0.88rem;color:var(--ink-soft)">** คำเชื่อมของคุณานุประโยคยังทำหน้าที่เป็นประธานของอนุประโยคนั้นด้วย **</p>
+      <div class="example">
+        <div class="sent">เสื้อที่หลินอี้สวมอยู่สวยมาก</div>
+        <div class="note">"ที่หลินอี้สวมอยู่" เป็นคุณานุประโยค ขยายคำนาม "เสื้อ"</div>
+      </div>
+      <div class="example">
+        <div class="sent">หยางหยางซื้อเสื้อสีดำตัวนั้นจากเด็กที่อยู่ข้างบ้าน</div>
+        <div class="note">"ที่อยู่ข้างบ้าน" เป็นคุณานุประโยค ขยายคำนาม "เด็ก"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>3) วิเศษณานุประโยค</h3>
+      <p>อนุประโยคที่ทำหน้าที่อย่าง<strong>วิเศษณ์วลี</strong> คือ<strong>ขยายกริยาวลี</strong></p>
+      <div class="pillrow">
+        <span class="pill">เมื่อ / ขณะที่ / ตั้งแต่</span>
+        <span class="pill">ขณะ / เพราะ / จน / เพื่อ / ถ้า</span>
+        <span class="pill">หาก / แม้</span>
+      </div>
+      <div class="example">
+        <div class="sent">นักเรียนทำงานหามรุ่งหามค่ำซึ่งไม่ดีต่อสุขภาพเลย</div>
+        <div class="note">"ซึ่งไม่ดีต่อสุขภาพเลย" เป็นวิเศษณานุประโยค ขยายกริยาวลี "ทำงานหามรุ่งหามค่ำ"</div>
+      </div>
+      <div class="example">
+        <div class="sent">แจมินเป็นหวัดเนื่องจากตากฝนอยู่นาน</div>
+        <div class="note">"เนื่องจากตากฝนอยู่นาน" เป็นวิเศษณานุประโยค ขยายกริยาวลี "เป็นหวัด"</div>
+      </div>
+      <div class="example">
+        <div class="sent">จีซองพูดเร็วกระทั่งฉันฟังไม่ทัน</div>
+        <div class="note">"กระทั่งฉันฟังไม่ทัน" เป็นวิเศษณานุประโยค ขยายกริยาวลี "พูดเร็ว"</div>
+      </div>
+    </div>
+
+    <div class="quiz-head"><h3>แบบฝึกหัด · ประโยคซ้อน</h3><span class="score-chip" data-score="t2">0/6</span></div>
+    <div id="quiz-t2"></div>
+    <div class="quiz-footer">
+      <span class="msg" data-msg="t2">ลองทำแบบฝึกหัดดูค่ะ</span>
+      <button class="reset-btn" data-reset="t2">ทำใหม่</button>
+    </div>
+  </section>
+
+  <!-- ================= TOPIC 3 ================= -->
+  <section class="topic" id="t3">
+    <div class="topic-head">
+      <div class="topic-badge" style="background:var(--t3)">3</div>
+      <div>
+        <div class="topic-title">ประโยครวม</div>
+        <div class="topic-sub">ไม่เหมือนกับ "ประโยคความรวม"</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>คำเชื่อมสมภาค</h3>
+      <p>คำเชื่อมหน่วยทางภาษา 2 หน่วยขึ้นไป <strong>เข้าเป็นหน่วยเดียวกัน</strong> โดยหน่วยภาษาที่เชื่อมกันต้องเป็น<strong>ประเภทเดียวกัน</strong> เช่น วลี+วลี หรือ ประโยค+ประโยค</p>
+      <div class="pillrow">
+        <span class="pill">และ</span><span class="pill">แต่</span><span class="pill">ทว่า</span>
+        <span class="pill">แต่ทว่า</span><span class="pill">และก็</span><span class="pill">หรือ</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>ประโยครวม มาจากไหนได้บ้าง</h3>
+      <div class="flow">
+        <div class="flow-step"><span class="num">1</span><span class="txt"><strong>สามัญ + สามัญ</strong><br><span>เจนนี่ออกแบบและตัดเย็บเสื้อผ้าเอง</span></span></div>
+        <div class="flow-step"><span class="num">2</span><span class="txt"><strong>สามัญ + ซ้อน</strong><br><span>เกษตรกรแถวนี้นิยมปลูกผักและเลี้ยงปลาที่กินวัชพืชไว้ในนา</span></span></div>
+        <div class="flow-step"><span class="num">3</span><span class="txt"><strong>ซ้อน + สามัญ</strong><br><span>หลังคาที่รั่วนั้นซ่อมแล้วแต่น้ำฝนก็ยังซึมลงมาได้</span></span></div>
+        <div class="flow-step"><span class="num">4</span><span class="txt"><strong>ซ้อน + ซ้อน</strong><br><span>ไอรีนรับประทานอาหารที่มีประโยชน์และดื่มน้ำที่บริสุทธิ์</span></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>ทดสอบว่าเป็นประโยครวมหรือไม่</h3>
+      <div class="example">
+        <div class="sent">แจ็คสันเรียนร้องเพลงแต่มาร์คเรียนเต้น</div>
+        <div class="note verdict yes">✓ เป็นประโยครวม — สองประโยคสามัญคนละประธาน เชื่อมด้วย "แต่"</div>
+      </div>
+      <div class="example">
+        <div class="sent">โบกอมและจุงกิดื่มน้ำส้มที่ฮงแด</div>
+        <div class="note verdict no">✕ ไม่เป็น — "และ" เชื่อมประธาน ไม่ใช่เชื่อมประโยค (เป็นประโยคซ้อนที่มีคุณานุประโยคขยาย "น้ำส้ม")</div>
+      </div>
+      <div class="example">
+        <div class="sent">ครูสั่งให้นักเรียนอ่านบทที่ ๓ และทำแบบฝึกหัดท้ายบท</div>
+        <div class="note verdict yes">✓ เป็นประโยครวม — "และ" เชื่อมหน่วยภาษาประเภทเดียวกัน 2 ส่วนที่ครูสั่งให้ทำ</div>
+      </div>
+    </div>
+
+    <div class="quiz-head"><h3>แบบฝึกหัด · ประโยครวม</h3><span class="score-chip" data-score="t3">0/6</span></div>
+    <div id="quiz-t3"></div>
+    <div class="quiz-footer">
+      <span class="msg" data-msg="t3">ลองทำแบบฝึกหัดดูค่ะ</span>
+      <button class="reset-btn" data-reset="t3">ทำใหม่</button>
+    </div>
+  </section>
+
+  <!-- ================= TOPIC 4 ================= -->
+  <section class="topic" id="t4">
+    <div class="topic-head">
+      <div class="topic-badge" style="background:var(--t4)">4</div>
+      <div>
+        <div class="topic-title">การอ่านจับใจความสำคัญ</div>
+        <div class="topic-sub">เก็บสาระสำคัญของเรื่องที่อ่าน</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>การอ่านคืออะไร</h3>
+      <p>การรับรู้เรื่องราวโดยใช้สายตา แล้วสมองจะลำดับเป็นถ้อยคำ ประโยค และข้อความต่าง ๆ เกิดเป็นเรื่องราวตามความรู้และประสบการณ์ของผู้อ่านแต่ละคน</p>
+    </div>
+
+    <div class="card">
+      <h3>การอ่านเพื่อจับใจความสำคัญ</h3>
+      <p>คือการอ่านเพื่อ<strong>เก็บสาระสำคัญของเรื่อง</strong> เช่น</p>
+      <ul>
+        <li>เก็บจุดหมายสำคัญของเรื่อง</li>
+        <li>เก็บเนื้อเรื่อง</li>
+        <li>เก็บแนวคิดหรือทัศนคติของผู้เขียน</li>
+        <li>เก็บข้อเท็จจริงหรืออารมณ์ของผู้เขียน</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>ตำแหน่งของใจความสำคัญ</h3>
+      <ul>
+        <li><strong>อยู่ต้นย่อหน้า</strong> — บอกประเด็นสำคัญก่อน แล้วขยายรายละเอียด (พบบ่อยที่สุด)</li>
+        <li><strong>อยู่ท้ายย่อหน้า</strong> — บอกรายละเอียดก่อน แล้วสรุปประเด็นสำคัญทีหลัง</li>
+        <li><strong>อยู่กลางย่อหน้า</strong> — ต้องพิจารณาว่าสาระสำคัญที่สุดอยู่ที่ประโยคใด</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>ใจความหลัก vs ใจความรอง</h3>
+      <p><strong>ใจความหลัก:</strong> ข้อความที่สำคัญที่สุดในย่อหน้า เป็นแก่นของย่อหน้านั้น — <em>ขาดส่วนนี้ไม่ได้</em></p>
+      <p><strong>ใจความรอง:</strong> ข้อความที่ขยายความใจความสำคัญ เป็นใจความสนับสนุนให้ชัดเจนขึ้น</p>
+    </div>
+
+    <div class="card">
+      <h3>วิธีอ่านจับใจความสำคัญแบบ SQ4R</h3>
+      <div class="flow">
+        <div class="flow-step"><span class="num">S</span><span class="txt"><strong>Survey</strong><br><span>อ่านคร่าว ๆ เพื่อหาจุดสำคัญของเรื่อง ไม่ควรใช้เวลานานเกินไป</span></span></div>
+        <div class="flow-step"><span class="num">Q</span><span class="txt"><strong>Question</strong><br><span>ตั้งคำถามจากเรื่องที่อ่าน เพื่อพิจารณาว่าใจความสำคัญคืออะไร เกี่ยวข้องกับใคร เมื่อไร อย่างไร</span></span></div>
+        <div class="flow-step"><span class="num">R1</span><span class="txt"><strong>Read</strong><br><span>อ่านเนื้อหาอย่างละเอียด เพื่อตอบคำถามที่ตั้งไว้</span></span></div>
+        <div class="flow-step"><span class="num">R2</span><span class="txt"><strong>Record</strong><br><span>จดบันทึกข้อมูลสำคัญจากคำตอบที่ได้ และจากความเข้าใจของตนเอง</span></span></div>
+        <div class="flow-step"><span class="num">R3</span><span class="txt"><strong>Recite</strong><br><span>เขียนเรียบเรียงใจความสำคัญด้วยภาษาของตนเอง หากไม่แน่ใจให้กลับไปอ่านซ้ำ</span></span></div>
+        <div class="flow-step"><span class="num">R4</span><span class="txt"><strong>Reflect</strong><br><span>วิเคราะห์ วิจารณ์ และแสดงความคิดเห็นจากเรื่องที่อ่าน</span></span></div>
+      </div>
+    </div>
+
+    <div class="quiz-head"><h3>แบบฝึกหัด · จับใจความสำคัญ</h3><span class="score-chip" data-score="t4">0/6</span></div>
+    <div id="quiz-t4"></div>
+    <div class="quiz-footer">
+      <span class="msg" data-msg="t4">ลองทำแบบฝึกหัดดูค่ะ</span>
+      <button class="reset-btn" data-reset="t4">ทำใหม่</button>
+    </div>
+  </section>
+
+  <!-- ================= TOPIC 5 ================= -->
+  <section class="topic" id="t5">
+    <div class="topic-head">
+      <div class="topic-badge" style="background:var(--t5)">5</div>
+      <div>
+        <div class="topic-title">การอ่านวิเคราะห์วิจารณ์</div>
+        <div class="topic-sub">และประเมินคุณค่าเรื่องที่อ่าน</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>ความหมาย</h3>
+      <p><strong>การอ่านวิเคราะห์และวิจารณ์</strong> เป็นกระบวนการหลังการอ่านเนื้อหาอย่างละเอียดถี่ถ้วนแล้ว ต้องใช้<strong>เหตุและผล</strong> ไม่ใช้อารมณ์หรือความรู้สึกส่วนตัว</p>
+      <p><strong>การอ่านประเมินคุณค่า</strong> เป็นกระบวนการหลังจากวิเคราะห์และวิจารณ์แล้ว โดยต้องอธิบายลักษณะของเนื้อหาว่าดีหรือไม่ มีจุดที่น่าชื่นชมหรือบกพร่องอย่างไร</p>
+    </div>
+
+    <div class="card">
+      <h3>หลักการอ่านวิเคราะห์และวิจารณ์</h3>
+      <div class="flow">
+        <div class="flow-step"><span class="num">1</span><span class="txt"><strong>อ่านเนื้อหาอย่างละเอียด</strong><br><span>เพื่อให้ทราบข้อมูลชัดเจน และสรุปเรื่องที่อ่านได้</span></span></div>
+        <div class="flow-step"><span class="num">2</span><span class="txt"><strong>วิเคราะห์เนื้อหา</strong><br><span>แยกแยะองค์ประกอบของเรื่องราวได้</span></span></div>
+        <div class="flow-step"><span class="num">3</span><span class="txt"><strong>วิจารณ์เนื้อหา</strong><br><span>แสดงความคิดเห็นต่อเรื่องที่อ่านทั้งด้านดีและจุดบกพร่อง อย่างมีเหตุผล</span></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>วิธีการฝึกอ่านวิเคราะห์และวิจารณ์</h3>
+      <ul>
+        <li>เล่าเนื้อหาของเรื่องว่ากล่าวถึงอะไร</li>
+        <li>บอกจุดมุ่งหมายและประเภทของเรื่องราว</li>
+        <li>วิเคราะห์เนื้อหาด้านต่าง ๆ เช่น โครงเรื่อง ตัวละคร บทสนทนา</li>
+        <li>ประเมินคุณค่าของเรื่อง โดยวิจารณ์อย่างมีเหตุผล อาจเห็นด้วยหรือเห็นต่างก็ได้</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>หลักการอ่านประเมินคุณค่า</h3>
+      <ul>
+        <li>พิจารณาเนื้อหาและองค์ประกอบของเนื้อหา แยกแยะแต่ละส่วนว่าสัมพันธ์กันหรือไม่</li>
+        <li>พิจารณาคุณค่าด้านวรรณศิลป์ — การใช้ภาษาเหมาะสมกับงานเขียนเพียงใด ส่งผลต่อจินตนาการของผู้อ่านอย่างไร</li>
+        <li>พิจารณาแนวคิดของผู้เขียน — มีข้อคิดใดที่มีคุณค่า สามารถนำไปใช้ในชีวิตประจำวันได้</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>ประเมินตามประเภทงานเขียน</h3>
+      <p><strong>ร้อยแก้ว / บันเทิงคดี:</strong> พิจารณาโครงเรื่อง ตัวละคร ฉาก การดำเนินเรื่อง ปมขัดแย้ง การคลี่คลายปม ความสมเหตุสมผล และความน่าเชื่อถือของพฤติกรรมตัวละคร รวมถึงภาษาที่ใช้เหมาะสมกับตัวบุคคลหรือไม่</p>
+      <p><strong>ร้อยกรอง:</strong> พิจารณารูปแบบคำประพันธ์ว่าเหมาะกับเนื้อหาหรือไม่ เนื้อหาสร้างความเพลิดเพลิน ประเทืองปัญญา สะเทือนอารมณ์ สะท้อนสังคม มีคติเตือนใจหรือไม่ และด้านวรรณศิลป์ — การใช้ถ้อยคำ สำนวนโวหาร ภาพพจน์ไพเราะคมคายเพียงใด</p>
+    </div>
+
+    <div class="quiz-head"><h3>แบบฝึกหัด · วิเคราะห์วิจารณ์</h3><span class="score-chip" data-score="t5">0/6</span></div>
+    <div id="quiz-t5"></div>
+    <div class="quiz-footer">
+      <span class="msg" data-msg="t5">ลองทำแบบฝึกหัดดูค่ะ</span>
+      <button class="reset-btn" data-reset="t5">ทำใหม่</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>สรุปเนื้อหาโดย ครูจิรัชยา กลับศรีอ่อน · จัดทำเพื่อการทบทวนบทเรียน</footer>
+
+<script>
+(function(){
+  // -------- Tab switching --------
+  var tabs = document.querySelectorAll('.tab-btn');
+  var topics = document.querySelectorAll('.topic');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-tab');
+      tabs.forEach(function(b){ b.classList.remove('active'); });
+      topics.forEach(function(t){ t.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // -------- Quiz data --------
+  var quizzes = {
+    t1: [
+      { q:'"หมากัดแมว" เป็นประโยคสามัญชนิดใด?', opts:['มีกริยาวลีเดียว','มีหลายกริยาวลี','ไม่ใช่ประโยคสามัญ'], correct:0, explain:'มีกริยาวลีเดียวคือ "กัด" จึงเป็นประโยคสามัญที่มีกริยาวลีเดียว' },
+      { q:'"แม่วิ่งไปเปิดประตูบ้าน" มีลักษณะอย่างไร?', opts:['มีกริยาวลีเดียว','มีคำเชื่อมกริยา','มีหลายกริยาวลีเรียงต่อกันโดยไม่มีคำเชื่อม'], correct:2, explain:'"วิ่งไป" และ "เปิดประตูบ้าน" เป็นกริยาเรียงต่อกันโดยไม่มีคำเชื่อม จึงยังเป็นประโยคสามัญ' },
+      { q:'"คุณยายแกงและทอดปลากะพง" เป็นประโยคสามัญหรือไม่?', opts:['เป็น เพราะมีกริยาวลีเดียว','ไม่เป็น เพราะ "และ" เป็นคำเชื่อมกริยา','เป็น เพราะมีประธานเดียว'], correct:1, explain:'"และ" เชื่อมกริยา 2 การกระทำ (แกง/ทอด) จึงไม่ใช่ประโยคสามัญ แต่เป็นประโยครวม' },
+      { q:'"เจโฮปและยุนกิกำลังซ้อมเต้น" เป็นประโยคสามัญเพราะเหตุใด?', opts:['เพราะ "และ" เชื่อมกริยา','เพราะมีหลายกริยาวลี ใช้กริยาวลีร่วมกัน "กำลังซ้อมเต้น"','เพราะไม่มีคำเชื่อมเลย'], correct:1, explain:'"และ" เชื่อมประธาน (เจโฮป, ยุนกิ) ไม่ใช่เชื่อมกริยา ทั้งสองคนใช้กริยาวลีร่วมกัน จึงยังเป็นประโยคสามัญ' },
+      { q:'"นัมจุนและจินกำลังกินรามยอนกิมจิและต็อกบกกี" เป็นประโยคสามัญเพราะเหตุใด?', opts:['มีกริยาวลีเดียว คำเชื่อมเชื่อมประธานและกรรม','มีกริยาวลีหลายตัว','เพราะไม่มีประธาน'], correct:0, explain:'"และ" ตัวแรกเชื่อมประธาน ตัวที่สองเชื่อมกรรม ส่วนกริยาวลี "กำลังกิน" มีเพียงตัวเดียว' },
+      { q:'สิ่งที่ใช้พิจารณาว่าประโยคใดเป็นประโยคสามัญคือข้อใด?', opts:['จำนวนประธาน','กริยาวลี','ความยาวของประโยค'], correct:1, explain:'หลักสำคัญที่สุดในการพิจารณาประโยคสามัญคือ "กริยาวลี" ว่ามีกี่วลี และมีคำเชื่อมกริยาหรือไม่' }
+    ],
+    t2: [
+      { q:'ประโยคซ้อนประกอบด้วยอะไรบ้าง?', opts:['ประโยคหลักอย่างเดียว','ประโยคหลัก + ประโยคย่อย','ประโยคสามัญ 2 ประโยค'], correct:1, explain:'ประโยคซ้อนประกอบด้วยมุขยประโยค (ประโยคหลัก) และอนุประโยค (ประโยคย่อย)' },
+      { q:'"เสื้อที่หลินอี้สวมอยู่สวยมาก" มีอนุประโยคชนิดใด?', opts:['นามานุประโยค','คุณานุประโยค','วิเศษณานุประโยค'], correct:1, explain:'"ที่หลินอี้สวมอยู่" ขยายคำนาม "เสื้อ" จึงเป็นคุณานุประโยค' },
+      { q:'คำเชื่อมข้อใดใช้กับนามานุประโยค?', opts:['เมื่อ / ถ้า / หาก','ที่ / ที่ว่า / ให้ / ว่า','ซึ่ง / อัน'], correct:1, explain:'นามานุประโยคใช้คำเชื่อม ที่ ที่ว่า ให้ ว่า' },
+      { q:'"จอยไม่ชอบให้ใครมาว่าเพื่อนของเธอ" อนุประโยคทำหน้าที่อะไร?', opts:['ขยายคำนาม "จอย"','กรรมของกริยาวลี "ไม่ชอบ"','ขยายกริยา "มาว่า"'], correct:1, explain:'"ให้ใครมาว่าเพื่อนของเธอ" เป็นนามานุประโยค ทำหน้าที่กรรมของกริยาวลี "ไม่ชอบ"' },
+      { q:'คุณานุประโยคทำหน้าที่อะไร?', opts:['ขยายคำนามที่นำมาข้างหน้า','ขยายกริยาวลี','เป็นประธานของประโยคหลัก'], correct:0, explain:'คุณานุประโยคทำหน้าที่ขยายคำนามที่อยู่ข้างหน้า และคำเชื่อมยังเป็นประธานของอนุประโยคนั้นด้วย' },
+      { q:'"จีซองพูดเร็วกระทั่งฉันฟังไม่ทัน" เป็นอนุประโยคชนิดใด?', opts:['นามานุประโยค','คุณานุประโยค','วิเศษณานุประโยค'], correct:2, explain:'"กระทั่งฉันฟังไม่ทัน" ขยายกริยาวลี "พูดเร็ว" จึงเป็นวิเศษณานุประโยค' }
+    ],
+    t3: [
+      { q:'"ประโยครวม" กับ "ประโยคความรวม" เหมือนกันหรือไม่?', opts:['เหมือนกัน','ไม่เหมือนกัน','เป็นคำเดียวกันแค่เรียกต่างกัน'], correct:1, explain:'ประโยครวมและประโยคความรวมไม่เหมือนกัน ตามที่สรุปไว้ในสไลด์' },
+      { q:'คำเชื่อมสมภาคใช้เชื่อมหน่วยภาษาแบบใด?', opts:['หน่วยภาษาประเภทใดก็ได้','หน่วยภาษาประเภทเดียวกันเท่านั้น','เชื่อมได้เฉพาะคำนาม'], correct:1, explain:'หน่วยภาษาที่เชื่อมด้วยคำเชื่อมสมภาคต้องเป็นประเภทเดียวกัน เช่น วลีกับวลี หรือประโยคกับประโยค' },
+      { q:'"เจนนี่ออกแบบและตัดเย็บเสื้อผ้าเอง" ประโยครวมนี้มาจากอะไร?', opts:['สามัญ + สามัญ','ซ้อน + สามัญ','ซ้อน + ซ้อน'], correct:0, explain:'เป็นการนำประโยคสามัญ 2 ประโยคมาเชื่อมกันด้วย "และ"' },
+      { q:'"หลังคาที่รั่วนั้นซ่อมแล้วแต่น้ำฝนก็ยังซึมลงมาได้" มาจากอะไร?', opts:['สามัญ + ซ้อน','ซ้อน + สามัญ','สามัญ + สามัญ'], correct:1, explain:'"หลังคาที่รั่วนั้นซ่อมแล้ว" เป็นประโยคซ้อน ส่วน "น้ำฝนก็ยังซึมลงมาได้" เป็นประโยคสามัญ' },
+      { q:'"โบกอมและจุงกิดื่มน้ำส้มที่ฮงแด" เป็นประโยครวมหรือไม่?', opts:['เป็น','ไม่เป็น'], correct:1, explain:'"และ" เชื่อมประธาน ไม่ได้เชื่อมประโยค จึงไม่ใช่ประโยครวม' },
+      { q:'ข้อใดไม่ใช่คำเชื่อมสมภาค?', opts:['แต่','ที่ว่า','หรือ'], correct:1, explain:'"ที่ว่า" เป็นคำเชื่อมของนามานุประโยคในประโยคซ้อน ไม่ใช่คำเชื่อมสมภาค' }
+    ],
+    t4: [
+      { q:'ใจความสำคัญมักพบอยู่ในตำแหน่งใดบ่อยที่สุด?', opts:['ต้นย่อหน้า','ท้ายย่อหน้า','กลางย่อหน้า'], correct:0, explain:'ใจความสำคัญที่อยู่ต้นย่อหน้าเป็นรูปแบบที่พบบ่อยที่สุด (บอกประเด็นก่อนแล้วขยายความ)' },
+      { q:'ในวิธี SQ4R ตัว "S" ย่อมาจากอะไร?', opts:['Survey','Study','Summary'], correct:0, explain:'S คือ Survey การอ่านอย่างคร่าว ๆ เพื่อหาจุดสำคัญของเรื่อง' },
+      { q:'ขั้น "Recite (R3)" คือการทำสิ่งใด?', opts:['อ่านเนื้อหาอย่างละเอียด','เขียนเรียบเรียงใจความสำคัญด้วยภาษาของตนเอง','ตั้งคำถามจากเรื่องที่อ่าน'], correct:1, explain:'Recite คือการเขียนเรียบเรียงใจความสำคัญโดยใช้ภาษาของตนเอง หากไม่แน่ใจให้กลับไปอ่านซ้ำ' },
+      { q:'ใจความหลักคืออะไร?', opts:['ข้อความขยายความที่ตัดออกก็ได้','ข้อความที่สำคัญที่สุดในย่อหน้า เป็นแก่นของย่อหน้า','ตัวอย่างประกอบเรื่อง'], correct:1, explain:'ใจความหลักคือข้อความที่สำคัญที่สุดในย่อหน้า เป็นแก่นของย่อหน้าที่ขาดไปไม่ได้' },
+      { q:'ขั้นตอนใดใน SQ4R ที่เป็นการ "ตั้งคำถามจากเรื่องที่อ่าน"?', opts:['Question (Q)','Read (R1)','Record (R2)'], correct:0, explain:'Question คือการตั้งคำถามจากเรื่องที่อ่าน เพื่อพิจารณาว่าใจความสำคัญคืออะไร' },
+      { q:'ขั้น "Reflect (R4)" คือการทำสิ่งใด?', opts:['จดบันทึกข้อมูลสำคัญ','วิเคราะห์ วิจารณ์ และแสดงความคิดเห็นจากเรื่องที่อ่าน','อ่านคร่าว ๆ เพื่อหาจุดสำคัญ'], correct:1, explain:'Reflect คือขั้นตอนสุดท้าย เป็นการวิเคราะห์ วิจารณ์ และแสดงความคิดเห็นต่อเรื่องที่อ่าน' }
+    ],
+    t5: [
+      { q:'การวิเคราะห์และวิจารณ์ควรใช้สิ่งใดเป็นหลัก?', opts:['อารมณ์และความรู้สึกส่วนตัว','เหตุและผล','ความชอบส่วนบุคคลเท่านั้น'], correct:1, explain:'การวิเคราะห์และวิจารณ์ต้องใช้เหตุและผล ไม่ใช้อารมณ์หรือความรู้สึกส่วนตัว' },
+      { q:'หลักการอ่านวิเคราะห์และวิจารณ์มีทั้งหมดกี่ข้อ?', opts:['2 ข้อ','3 ข้อ','4 ข้อ'], correct:1, explain:'มี 3 ข้อ คือ อ่านเนื้อหาอย่างละเอียด, วิเคราะห์เนื้อหา, และวิจารณ์เนื้อหา' },
+      { q:'งานเขียนประเภทร้อยแก้ว/บันเทิงคดี ต้องพิจารณาสิ่งใดเป็นพิเศษ?', opts:['รูปแบบคำประพันธ์และฉันทลักษณ์','โครงเรื่อง ตัวละคร ฉาก และปมขัดแย้งของเรื่อง','จำนวนคำในบทประพันธ์'], correct:1, explain:'งานร้อยแก้ว/บันเทิงคดีต้องพิจารณาโครงเรื่อง ตัวละคร ฉาก การดำเนินเรื่อง และปมขัดแย้งของเรื่อง' },
+      { q:'งานเขียนประเภทร้อยกรอง ต้องพิจารณาสิ่งใดเป็นพิเศษ?', opts:['รูปแบบคำประพันธ์และวรรณศิลป์','โครงเรื่องและตัวละครเท่านั้น','บทสนทนาของตัวละคร'], correct:0, explain:'งานร้อยกรองต้องพิจารณารูปแบบคำประพันธ์ว่าเหมาะสมกับเนื้อหาหรือไม่ และคุณค่าด้านวรรณศิลป์ เช่น ถ้อยคำ สำนวนโวหาร ภาพพจน์' },
+      { q:'การอ่านประเมินคุณค่าเกิดขึ้นเมื่อใด?', opts:['ก่อนอ่านเนื้อเรื่อง','หลังจากวิเคราะห์และวิจารณ์แล้ว','ระหว่างอ่านเนื้อเรื่องครั้งแรก'], correct:1, explain:'การอ่านประเมินคุณค่าเป็นกระบวนการที่เกิดขึ้นหลังจากการอ่านวิเคราะห์และวิจารณ์แล้ว' },
+      { q:'ข้อใด "ไม่ใช่" หลักการอ่านประเมินคุณค่า?', opts:['พิจารณาคุณค่าด้านวรรณศิลป์','พิจารณาแนวคิดของผู้เขียน','พิจารณาว่าผู้เขียนมีชื่อเสียงมากเพียงใด'], correct:2, explain:'ชื่อเสียงของผู้เขียนไม่ใช่หลักการอ่านประเมินคุณค่า หลักการที่ถูกต้องคือพิจารณาเนื้อหา วรรณศิลป์ และแนวคิดของผู้เขียน' }
+    ]
+  };
+
+  // -------- Render quizzes --------
+  var state = {}; // { t1: {answered:[bool,...], correctCount:0} }
+
+  function renderQuiz(topicId){
+    var data = quizzes[topicId];
+    var container = document.getElementById('quiz-' + topicId);
+    container.innerHTML = '';
+    state[topicId] = { answered:new Array(data.length).fill(false), score:0 };
+
+    data.forEach(function(item, qi){
+      var card = document.createElement('div');
+      card.className = 'q-card';
+
+      var num = document.createElement('div');
+      num.className = 'q-num';
+      num.textContent = 'ข้อที่ ' + (qi+1) + ' / ' + data.length;
+      card.appendChild(num);
+
+      var qtext = document.createElement('div');
+      qtext.className = 'q-text';
+      qtext.textContent = item.q;
+      card.appendChild(qtext);
+
+      var explain = document.createElement('div');
+      explain.className = 'explain';
+      explain.textContent = item.explain;
+
+      item.opts.forEach(function(optText, oi){
+        var btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.type = 'button';
+        btn.textContent = optText;
+        btn.addEventListener('click', function(){
+          if(state[topicId].answered[qi]) return;
+          state[topicId].answered[qi] = true;
+
+          var allOpts = card.querySelectorAll('.opt');
+          allOpts.forEach(function(o){ o.classList.add('disabled'); });
+
+          if(oi === item.correct){
+            btn.classList.add('correct');
+            state[topicId].score++;
+          } else {
+            btn.classList.add('incorrect');
+            allOpts[item.correct].classList.add('correct');
+          }
+          explain.classList.add('show');
+          updateScore(topicId);
+        });
+        card.appendChild(btn);
+      });
+
+      card.appendChild(explain);
+      container.appendChild(card);
+    });
+
+    updateScore(topicId);
+  }
+
+  function updateScore(topicId){
+    var chip = document.querySelector('.score-chip[data-score="' + topicId + '"]');
+    var msg = document.querySelector('.msg[data-msg="' + topicId + '"]');
+    var s = state[topicId];
+    var total = quizzes[topicId].length;
+    chip.textContent = s.score + '/' + total;
+
+    var answeredCount = s.answered.filter(Boolean).length;
+    if(answeredCount === 0){
+      msg.textContent = 'ลองทำแบบฝึกหัดดูค่ะ';
+    } else if(answeredCount < total){
+      msg.textContent = 'ทำต่อให้ครบทุกข้อนะคะ (' + answeredCount + '/' + total + ')';
+    } else {
+      var pct = Math.round((s.score/total)*100);
+      if(pct === 100) msg.textContent = 'เก่งมากค่ะ ตอบถูกทุกข้อ! 🎉';
+      else if(pct >= 70) msg.textContent = 'ทำได้ดีค่ะ (' + pct + '%) ลองทบทวนข้อที่ผิดอีกครั้ง';
+      else msg.textContent = 'ลองกลับไปอ่านสรุปด้านบนแล้วทำใหม่นะคะ (' + pct + '%)';
+    }
+  }
+
+  Object.keys(quizzes).forEach(renderQuiz);
+
+  document.querySelectorAll('.reset-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-reset');
+      renderQuiz(id);
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
